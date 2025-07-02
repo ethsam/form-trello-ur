@@ -34,5 +34,24 @@ final class WebhookController extends AbstractController
         return new Response('OK', 200);
     }
 
+    #[Route('/webhook/log', name: 'app_webhook_log', methods: ['GET'])]
+    public function showLog(): Response
+    {
+        $logFile = $this->projectDir . '/DEBUG/trello_webhook.log';
+
+        if (!file_exists($logFile)) {
+            return new Response('Aucun log trouvé.', 404);
+        }
+
+        $content = file_get_contents($logFile);
+
+        return new Response(
+            nl2br(htmlspecialchars($content)), // sécurise l'affichage
+            200,
+            ['Content-Type' => 'text/html']
+        );
+    }
+
+
 
 }
