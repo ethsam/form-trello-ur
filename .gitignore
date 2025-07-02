@@ -8,4 +8,5 @@
 /var/
 /vendor/
 /public/.htaccess
+/DEBUG/*
 ###< symfony/framework-bundle ###
