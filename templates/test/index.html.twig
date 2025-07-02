@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une carte Trello{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle carte Trello</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.desc) }}
+        <button class="btn btn-primary">Créer</button>
+    {{ form_end(form) }}
+{% endblock %}
