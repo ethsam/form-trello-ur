@@ -21,15 +21,15 @@ final class WebhookController extends AbstractController
     public function index(Request $request): Response
     {
         if ($request->getMethod() === 'HEAD') {
-            // Trello vérifie juste que l’URL est valide
-            return new Response('OK');
+            // Trello test la validité de l'URL : il faut **obligatoirement** un 200 ici
+            return new Response('', 200); // ← C’est ça qui débloque tout
         }
 
         $data = json_decode($request->getContent(), true);
 
-        // Juste pour tester
         file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', print_r($data, true), FILE_APPEND);
 
         return new Response('OK');
     }
+
 }
