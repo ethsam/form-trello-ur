@@ -3,11 +3,12 @@
 namespace App\Controller;
 
 use App\Form\TrelloCardType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\FormulaireUrType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class TestController extends AbstractController
 {
@@ -62,6 +63,27 @@ final class TestController extends AbstractController
     {
         return $this->render('pages/form-full.html.twig', [
             'test' => "test",
+        ]);
+    }
+
+    #[Route('/action/ajouter', name: 'action_add')]
+    public function actionAdd(Request $request): Response
+    {
+        $form = $this->createForm(FormulaireUrType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Ici tu peux traiter les données du formulaire :
+            $data = $form->getData();
+            // par exemple : les enregistrer, envoyer un email, etc.
+
+            $this->addFlash('success', 'Demande envoyée avec succès !');
+
+            return $this->redirectToRoute('action_add');
+        }
+
+        return $this->render('pages/actions/add.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

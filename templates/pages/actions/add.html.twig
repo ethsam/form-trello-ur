@@ -1,0 +1,131 @@
+{% extends 'base_form.html.twig' %}
+
+{% block title %}Nouvelle demande UR{% endblock %}
+
+{% block body %}
+<div class="rbt-create-course-area bg-color-white rbt-section-gap">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <h1 class="mb--20">Formulaire de demande</h1>
+
+                {{ form_start(form) }}
+
+                <div class="rbt-course-field-wrapper rbt-default-form">
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.nom_prenom) }}
+                        {{ form_widget(form.nom_prenom, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.nom_prenom) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.composante) }}
+                        {{ form_widget(form.composante, {'attr': {'class': 'form-select'}}) }}
+                        {{ form_errors(form.composante) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.telephone) }}
+                        {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.telephone) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.fonction) }}
+                        {{ form_widget(form.fonction, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.fonction) }}
+                    </div>
+
+                    <hr>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.intitule_projet) }}
+                        {{ form_widget(form.intitule_projet, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.intitule_projet) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.objectif) }}
+                        {{ form_widget(form.objectif, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.objectif) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.date_diffusion) }}
+                        {{ form_widget(form.date_diffusion, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.date_diffusion) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.date_limite) }}
+                        {{ form_widget(form.date_limite, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.date_limite) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.echeance_externe) }}
+                        {{ form_widget(form.echeance_externe, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.echeance_externe) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.formats) }}
+                        {{ form_widget(form.formats) }}
+                        {{ form_errors(form.formats) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.supports) }}
+                        {{ form_widget(form.supports) }}
+                        {{ form_errors(form.supports) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.texte_a_integrer) }}
+                        {{ form_widget(form.texte_a_integrer, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.texte_a_integrer) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.fichiers_visuels) }}
+                        {{ form_widget(form.fichiers_visuels, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.fichiers_visuels) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.contraintes) }}
+                        {{ form_widget(form.contraintes, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.contraintes) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.public_vise) }}
+                        {{ form_widget(form.public_vise, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.public_vise) }}
+                    </div>
+
+                    <div class="course-field mb--15">
+                        {{ form_label(form.pieces_jointes) }}
+                        {{ form_widget(form.pieces_jointes, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.pieces_jointes) }}
+                    </div>
+
+                </div>
+
+                <div class="mt--20">
+                    <button class="rbt-btn btn-gradient w-100" type="submit">Envoyer la demande</button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
