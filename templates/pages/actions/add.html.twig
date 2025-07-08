@@ -2,6 +2,26 @@
 
 {% block title %}Nouvelle demande UR{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/slick.css">
+    <link rel="stylesheet" href="/assets/css/vendor/slick-theme.css">
+    <link rel="stylesheet" href="/assets/css/plugins/sal.css">
+    <link rel="stylesheet" href="/assets/css/plugins/feather.css">
+    <link rel="stylesheet" href="/assets/css/plugins/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/euclid-circulara.css">
+    <link rel="stylesheet" href="/assets/css/plugins/swiper.css">
+    <link rel="stylesheet" href="/assets/css/plugins/odometer.css">
+    <link rel="stylesheet" href="/assets/css/plugins/animation.css">
+    <link rel="stylesheet" href="/assets/css/plugins/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jquery-ui.css">
+    <link rel="stylesheet" href="/assets/css/plugins/magnigy-popup.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins/plyr.css">
+    <link rel="stylesheet" href="/assets/css/plugins/jodit.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+{% endblock %}
+
 {% block body %}
 <div class="rbt-create-course-area bg-color-white rbt-section-gap">
     <div class="container">
@@ -17,7 +37,7 @@
                         {{ form_label(form.nom_prenom) }}
                         {{ form_widget(form.nom_prenom, {'attr': {'class': 'form-control', 'id': 'field-1'}}) }}
                         {{ form_errors(form.nom_prenom) }}
-                        <small class="d-block mt_dec--5"><i class="feather-info"></i> test de texte indication ou aide.</small>
+                        {# <small class="d-block mt_dec--5"><i class="feather-info"></i> test de texte indication ou aide.</small> #}
                     </div>
 
                     <div class="course-field mb--20 mt-5">
@@ -70,80 +90,54 @@
                     </div>
 
                     <div class="course-field mb--15 mt-5">
-                        {{ form_label(form.objectif) }}
-                        {{ form_widget(form.objectif, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.objectif) }}
+                        {# {{ form_label(form.brief) }} #}
+                        <label for="{{ form.brief.vars.id }}">
+                            {{ form.brief.vars.label }}
+                            {% if form.brief.vars.required %}
+                                <span class="text-danger">*</span>
+                            {% endif %}
+                        </label>
+                        {{ form_widget(form.brief, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+                        {{ form_errors(form.brief) }}
+                        <small class="d-block mt_dec--5">
+                            <i class="feather-info"></i>
+                            Merci de fournir un maximum de détails : dates, lieu, public concerné, intervenants, objectifs, etc.
+                        </small>
                     </div>
+
+                    <hr class="mt-5">
 
                     <div class="row row-15">
                         <div class="col-lg-6">
                             <div class="course-field mb--15 mt-5">
-                                {{ form_label(form.date_diffusion) }}
-                                {{ form_widget(form.date_diffusion, {'attr': {'class': 'form-control'}}) }}
-                                {{ form_errors(form.date_diffusion) }}
+                                {{ form_label(form.formats) }}
+                                {{ form_widget(form.formats) }}
+                                {{ form_errors(form.formats) }}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="course-field mb--15 mt-5">
-                                {{ form_label(form.date_limite) }}
-                                {{ form_widget(form.date_limite, {'attr': {'class': 'form-control'}}) }}
-                                {{ form_errors(form.date_limite) }}
+                                {{ form_label(form.supports) }}
+                                {{ form_widget(form.supports) }}
+                                {{ form_errors(form.supports) }}
                             </div>
                         </div>
                     </div>
 
-                    <div class="course-field mb--15 mt-5">
-                        {{ form_label(form.echeance_externe) }}
-                        {{ form_widget(form.echeance_externe, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.echeance_externe) }}
+                    <hr class="mt-5">
+
+                    <div class="course-field mb--20 mt-5">
+                        <h6>Pièces jointes</h6>
+                        <div class="dropzone" id="my-dropzone">
+                            {{ form_widget(form.pieces_jointes, {'attr': {'class': 'd-none'}}) }}
+                        </div>
+                        <small class="d-block mt-2 text-muted">
+                            <i class="feather-info"></i> Glissez-déposez vos fichiers ici (max 10 Mo / PDF, JPG, PNG)
+                        </small>
                     </div>
 
                     <hr class="mt-5">
-
-                    <div class="course-field mb--15 mt-5">
-                        {{ form_label(form.formats) }}
-                        {{ form_widget(form.formats) }}
-                        {{ form_errors(form.formats) }}
-                    </div>
-
-                    <div class="course-field mb--15 mt-5">
-                        {{ form_label(form.supports) }}
-                        {{ form_widget(form.supports) }}
-                        {{ form_errors(form.supports) }}
-                    </div>
-
-                    <hr class="mt-5">
-
-                    <div class="course-field mb--15">
-                        {{ form_label(form.texte_a_integrer) }}
-                        {{ form_widget(form.texte_a_integrer, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.texte_a_integrer) }}
-                    </div>
-
-                    <div class="course-field mb--15">
-                        {{ form_label(form.fichiers_visuels) }}
-                        {{ form_widget(form.fichiers_visuels, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.fichiers_visuels) }}
-                    </div>
-
-                    <div class="course-field mb--15">
-                        {{ form_label(form.contraintes) }}
-                        {{ form_widget(form.contraintes, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.contraintes) }}
-                    </div>
-
-                    <div class="course-field mb--15">
-                        {{ form_label(form.public_vise) }}
-                        {{ form_widget(form.public_vise, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.public_vise) }}
-                    </div>
-
-                    <div class="course-field mb--15">
-                        {{ form_label(form.pieces_jointes) }}
-                        {{ form_widget(form.pieces_jointes, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.pieces_jointes) }}
-                    </div>
 
                 </div>
 
@@ -156,4 +150,52 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
+
+
+{% block javascripts %}
+    <script src="/assets/js/vendor/modernizr.min.js"></script>
+    <script src="/assets/js/vendor/jquery.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+    <script src="/assets/js/vendor/sal.js"></script>
+    <script src="/assets/js/vendor/js.cookie.js"></script>
+    <script src="/assets/js/vendor/jquery.style.switcher.js"></script>
+    <script src="/assets/js/vendor/swiper.js"></script>
+    <script src="/assets/js/vendor/jquery-appear.js"></script>
+    <script src="/assets/js/vendor/odometer.js"></script>
+    <script src="/assets/js/vendor/backtotop.js"></script>
+    <script src="/assets/js/vendor/isotop.js"></script>
+    <script src="/assets/js/vendor/imageloaded.js"></script>
+    <script src="/assets/js/vendor/wow.js"></script>
+    <script src="/assets/js/vendor/waypoint.min.js"></script>
+    <script src="/assets/js/vendor/easypie.js"></script>
+    <script src="/assets/js/vendor/text-type.js"></script>
+    <script src="/assets/js/vendor/jquery-one-page-nav.js"></script>
+    <script src="/assets/js/vendor/bootstrap-select.min.js"></script>
+    <script src="/assets/js/vendor/jquery-ui.js"></script>
+    <script src="/assets/js/vendor/magnify-popup.min.js"></script>
+    <script src="/assets/js/vendor/paralax-scroll.js"></script>
+    <script src="/assets/js/vendor/paralax.min.js"></script>
+    <script src="/assets/js/vendor/countdown.js"></script>
+    <script src="/assets/js/vendor/plyr.js"></script>
+    <script src="/assets/js/vendor/jodit.min.js"></script>
+    <script src="/assets/js/vendor/Sortable.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+
+    <script>
+        Dropzone.autoDiscover = false;
+
+        new Dropzone("#my-dropzone", {
+            url: "{{ path('action_add') }}", // ⚠️ ou endpoint dédié si tu gères les fichiers séparément
+            paramName: 'pieces_jointes',
+            maxFilesize: 10, // Mo
+            acceptedFiles: '.pdf,.jpg,.jpeg,.png',
+            dictDefaultMessage: 'Déposez vos fichiers ici ou cliquez',
+            autoProcessQueue: false
+        });
+    </script>
+{% endblock %}
+
+

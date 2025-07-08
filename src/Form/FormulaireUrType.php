@@ -53,23 +53,10 @@ class FormulaireUrType extends AbstractType
             ->add('intitule_projet', TextType::class, [
                 'label' => 'Intitulé du projet / action',
             ])
-            ->add('objectif', TextType::class, [
-                'label' => 'Objectif principal du visuel',
-            ])
 
-            // 🎯 CALENDRIER
-            ->add('date_diffusion', DateType::class, [
-                'label' => 'Date de diffusion souhaitée',
-                'widget' => 'single_text',
-            ])
-            ->add('date_limite', DateType::class, [
-                'label' => 'Date limite de remise du visuel',
-                'required' => false,
-                'widget' => 'single_text',
-            ])
-            ->add('echeance_externe', TextareaType::class, [
-                'label' => 'Échéance externe à respecter',
-                'required' => false,
+            ->add('brief', TextareaType::class, [
+                'label' => 'Briefing pour la création',
+                'required' => true,
             ])
 
             // 🎯 FORMAT & SUPPORT
@@ -86,6 +73,7 @@ class FormulaireUrType extends AbstractType
                     'Autre' => 'autre',
                 ]
             ])
+
             ->add('supports', ChoiceType::class, [
                 'label' => 'Supports de diffusion',
                 'expanded' => true,
@@ -99,54 +87,13 @@ class FormulaireUrType extends AbstractType
                 ]
             ])
 
-            // ✍️ CONTENU
-            ->add('texte_a_integrer', TextareaType::class, [
-                'label' => 'Texte à intégrer',
-                'required' => false,
-            ])
-            ->add('fichiers_visuels', FileType::class, [
-                'label' => 'Visuels à intégrer',
-                'mapped' => false,
-                'multiple' => true,
-                'required' => false,
-                'constraints' => [
-                    new All([
-                        'constraints' => [
-                            new File([
-                                'maxSize' => '10M',
-                                'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
-                                'mimeTypesMessage' => 'Seuls les fichiers JPG, PNG, WEBP ou PDF sont autorisés.',
-                            ])
-                        ]
-                    ])
-                ],
-            ])
-            ->add('contraintes', TextareaType::class, [
-                'label' => 'Contraintes spécifiques',
-                'required' => false,
-            ])
-            ->add('public_vise', TextType::class, [
-                'label' => 'Public visé',
-                'required' => false,
-            ])
-
             // 📎 PIÈCES JOINTES
             ->add('pieces_jointes', FileType::class, [
-                'label' => 'Pièces jointes',
+                'label' => false,
                 'mapped' => false,
-                'multiple' => true,
                 'required' => false,
-                'constraints' => [
-                    new All([
-                        'constraints' => [
-                            new File([
-                                'maxSize' => '10M',
-                                'mimeTypes' => ['application/pdf', 'image/jpeg', 'image/png'],
-                                'mimeTypesMessage' => 'Formats autorisés : PDF, JPG ou PNG.',
-                            ])
-                        ]
-                    ])
-                ],
+                'multiple' => true,
+                'attr' => ['class' => 'dropzone', 'id' => 'my-dropzone']
             ])
         ;
     }
