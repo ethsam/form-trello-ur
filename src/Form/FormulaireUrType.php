@@ -25,12 +25,18 @@ class FormulaireUrType extends AbstractType
             ->add('composante', ChoiceType::class, [
                 'label' => 'Composante concernée',
                 'choices' => [
-                    'Composante 1' => 'composante_1',
-                    'Composante 2' => 'composante_2',
-                    'Composante 3' => 'composante_3',
-                    // Ajoute les 14 composantes ici
+                    'Web Developer' => 'web_dev',
+                    'App Developer' => 'app_dev',
+                    'Javascript' => 'js',
+                    'React' => 'react',
+                    'WordPress' => 'wp',
+                    'jQuery' => 'jquery',
+                    'Vue Js' => 'vue',
+                    'Angular' => 'angular',
                 ],
-                'placeholder' => 'Sélectionner',
+                'placeholder' => false,
+                'multiple' => true,       // ✅ important
+                'expanded' => false       // ✅ sinon Symfony utilise des cases à cocher
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email de contact',

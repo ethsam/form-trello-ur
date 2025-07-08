@@ -15,77 +15,105 @@
 
                     <div class="course-field mb--15">
                         {{ form_label(form.nom_prenom) }}
-                        {{ form_widget(form.nom_prenom, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(form.nom_prenom, {'attr': {'class': 'form-control', 'id': 'field-1'}}) }}
                         {{ form_errors(form.nom_prenom) }}
+                        <small class="d-block mt_dec--5"><i class="feather-info"></i> test de texte indication ou aide.</small>
                     </div>
 
-                    <div class="course-field mb--15">
+                    <div class="course-field mb--20 mt-5">
                         {{ form_label(form.composante) }}
-                        {{ form_widget(form.composante, {'attr': {'class': 'form-select'}}) }}
-                        {{ form_errors(form.composante) }}
+                        <div class="rbt-modern-select bg-transparent height-45 w-100 mb--10">
+                            {{ form_widget(form.composante, {
+                                'attr': {
+                                    'class': 'w-100',
+                                    'multiple': 'multiple',
+                                    'data-size': '7',
+                                    'data-selected-text-format': 'count > 2',
+                                    'title': 'Selectionner'
+                                }
+                            }) }}
+                            {{ form_errors(form.composante) }}
+                        </div>
                     </div>
 
-                    <div class="course-field mb--15">
-                        {{ form_label(form.email) }}
-                        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.email) }}
+                    <div class="row row-15">
+                        <div class="col-lg-6">
+                            <div class="course-field mb--15 mt-5">
+                                {{ form_label(form.email) }}
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="course-field mb--15 mt-5">
+                                {{ form_label(form.telephone) }}
+                                {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.telephone) }}
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="course-field mb--15">
-                        {{ form_label(form.telephone) }}
-                        {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.telephone) }}
-                    </div>
-
-                    <div class="course-field mb--15">
+                    <div class="course-field mb--15 mt-5">
                         {{ form_label(form.fonction) }}
                         {{ form_widget(form.fonction, {'attr': {'class': 'form-control'}}) }}
                         {{ form_errors(form.fonction) }}
+                        {# <small class="d-block mt_dec--5"><i class="feather-info"></i> Title should be 30 charecter.</small> #}
                     </div>
 
-                    <hr>
+                    <hr class="mt-5">
 
-                    <div class="course-field mb--15">
+                    <div class="course-field mb--15 mt-5">
                         {{ form_label(form.intitule_projet) }}
                         {{ form_widget(form.intitule_projet, {'attr': {'class': 'form-control'}}) }}
                         {{ form_errors(form.intitule_projet) }}
                     </div>
 
-                    <div class="course-field mb--15">
+                    <div class="course-field mb--15 mt-5">
                         {{ form_label(form.objectif) }}
                         {{ form_widget(form.objectif, {'attr': {'class': 'form-control'}}) }}
                         {{ form_errors(form.objectif) }}
                     </div>
 
-                    <div class="course-field mb--15">
-                        {{ form_label(form.date_diffusion) }}
-                        {{ form_widget(form.date_diffusion, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.date_diffusion) }}
+                    <div class="row row-15">
+                        <div class="col-lg-6">
+                            <div class="course-field mb--15 mt-5">
+                                {{ form_label(form.date_diffusion) }}
+                                {{ form_widget(form.date_diffusion, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.date_diffusion) }}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="course-field mb--15 mt-5">
+                                {{ form_label(form.date_limite) }}
+                                {{ form_widget(form.date_limite, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.date_limite) }}
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="course-field mb--15">
-                        {{ form_label(form.date_limite) }}
-                        {{ form_widget(form.date_limite, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.date_limite) }}
-                    </div>
-
-                    <div class="course-field mb--15">
+                    <div class="course-field mb--15 mt-5">
                         {{ form_label(form.echeance_externe) }}
                         {{ form_widget(form.echeance_externe, {'attr': {'class': 'form-control'}}) }}
                         {{ form_errors(form.echeance_externe) }}
                     </div>
 
-                    <div class="course-field mb--15">
+                    <hr class="mt-5">
+
+                    <div class="course-field mb--15 mt-5">
                         {{ form_label(form.formats) }}
                         {{ form_widget(form.formats) }}
                         {{ form_errors(form.formats) }}
                     </div>
 
-                    <div class="course-field mb--15">
+                    <div class="course-field mb--15 mt-5">
                         {{ form_label(form.supports) }}
                         {{ form_widget(form.supports) }}
                         {{ form_errors(form.supports) }}
                     </div>
+
+                    <hr class="mt-5">
 
                     <div class="course-field mb--15">
                         {{ form_label(form.texte_a_integrer) }}
