@@ -56,5 +56,13 @@ final class TestController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/formulaire-full-components', name: 'app_components')]
+    public function testcomponents(Request $request): Response
+    {
+        return $this->render('pages/form-full.html.twig', [
+            'test' => "test",
+        ]);
+    }
 }
 
