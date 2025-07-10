@@ -23,6 +23,7 @@
 {% endblock %}
 
 {% block body %}
+
 <div class="rbt-create-course-area bg-color-white rbt-section-gap">
     <div class="container">
         <div class="row g-5">
@@ -81,7 +82,6 @@
                             {{ form_widget(form.besoin, {
                                 'attr': {
                                     'class': 'w-100',
-                                    'multiple': 'multiple',
                                     'data-size': '7',
                                     'data-selected-text-format': 'count > 2',
                                     'title': 'Selectionner'
@@ -118,22 +118,18 @@
 
                     <hr class="mt-5">
 
-                    <div class="row row-15">
-                        <div class="col-lg-12">
-                            <div class="course-field mb--15 mt-5">
-                                {{ form_label(form.formats) }}
-                                {{ form_widget(form.formats) }}
-                                {{ form_errors(form.formats) }}
-                            </div>
+                    <div class="rbt-single-widget rbt-widget-categories has-show-more">
+                        <div class="inner">
+                            {{ form_label(form.formats) }}
+                            <ul class="rbt-sidebar-list-wrapper categories-list-check">
+                                {% for checkbox in form.formats %}
+                                    <li class="rbt-check-group">
+                                        {{ form_widget(checkbox) }}
+                                        {{ form_label(checkbox) }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
-
-                        {# <div class="col-lg-6">
-                            <div class="course-field mb--15 mt-5">
-                                {{ form_label(form.supports) }}
-                                {{ form_widget(form.supports) }}
-                                {{ form_errors(form.supports) }}
-                            </div>
-                        </div> #}
                     </div>
 
                     <div class="course-field mb--15 mt-5">
@@ -211,14 +207,15 @@
         Dropzone.autoDiscover = false;
 
         new Dropzone("#my-dropzone", {
-            url: "{{ path('action_add') }}", // ⚠️ ou endpoint dédié si tu gères les fichiers séparément
+            url: "{{ path('action_add') }}",
             paramName: 'pieces_jointes',
-            maxFilesize: 10, // Mo
-            acceptedFiles: '.pdf,.jpg,.jpeg,.png',
+            maxFilesize: 100, // Mo
+            acceptedFiles: '.pdf,.jpg,.jpeg,.png,.doc,.docx,.ppt,.pptx',
             dictDefaultMessage: 'Déposez vos fichiers ici ou cliquez',
             autoProcessQueue: false
         });
     </script>
+
 {% endblock %}
 
 

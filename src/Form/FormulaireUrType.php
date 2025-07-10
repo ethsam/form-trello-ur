@@ -18,7 +18,6 @@ class FormulaireUrType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // 🧾 IDENTITÉ
             ->add('nom_prenom', TextType::class, [
                 'label' => 'Nom et prénom du demandeur',
             ])
@@ -30,8 +29,8 @@ class FormulaireUrType extends AbstractType
                 ],
                 'placeholder' => false,
                 'required' => true,
-                'multiple' => true,       // ✅ important
-                'expanded' => false,       // ✅ sinon Symfony utilise des cases à cocher
+                'multiple' => false,
+                'expanded' => false,
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email de contact',
@@ -42,7 +41,6 @@ class FormulaireUrType extends AbstractType
                 'required' => false,
             ])
 
-            // 🎯 OBJECTIF
             ->add('intitule_projet', TextType::class, [
                 'label' => 'Intitulé du projet / action',
             ])
@@ -56,17 +54,21 @@ class FormulaireUrType extends AbstractType
                 'required' => true,
             ])
 
-            // 🎯 FORMAT & SUPPORT
             ->add('formats', ChoiceType::class, [
                 'label' => 'Formats souhaités',
                 'expanded' => true,
                 'multiple' => true,
                 'choices' => [
-                    'Affiche A3' => 'a3',
-                    'Flyer A5' => 'a5',
+                    'Affiche' => 'affiche',
+                    'Flyer' => 'flyer',
                     'Post Instagram' => 'instagram',
                     'Post Facebook' => 'facebook',
-                    'Bannière web' => 'web',
+                    'Invitation' => 'invitation',
+                    'Programme évènement' => 'prog-event',
+                    'Logo' => 'logo',
+                    'Brochure' => 'brochure',
+                    'Word' => 'word',
+                    'Powerpoint' => 'powerpoint',
                     'Autre' => 'autre',
                 ]
             ])
@@ -89,7 +91,6 @@ class FormulaireUrType extends AbstractType
                 'required' => true,
             ])
 
-            // 📎 PIÈCES JOINTES
             ->add('pieces_jointes', FileType::class, [
                 'label' => false,
                 'mapped' => false,
