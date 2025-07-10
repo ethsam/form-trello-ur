@@ -40,7 +40,7 @@
                         {# <small class="d-block mt_dec--5"><i class="feather-info"></i> test de texte indication ou aide.</small> #}
                     </div>
 
-                    <div class="course-field mb--20 mt-5">
+                    {# <div class="course-field mb--20 mt-5">
                         {{ form_label(form.composante) }}
                         <div class="rbt-modern-select bg-transparent height-45 w-100 mb--10">
                             {{ form_widget(form.composante, {
@@ -54,12 +54,13 @@
                             }) }}
                             {{ form_errors(form.composante) }}
                         </div>
-                    </div>
+                    </div> #}
 
                     <div class="row row-15">
                         <div class="col-lg-6">
                             <div class="course-field mb--15 mt-5">
-                                {{ form_label(form.email) }}
+                                {# {{ form_label(form.email) }} #}
+                                <label for="{{ form.email.vars.id }}">{{ form.email.vars.label }}{% if form.email.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
                                 {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
                                 {{ form_errors(form.email) }}
                             </div>
@@ -74,41 +75,51 @@
                         </div>
                     </div>
 
-                    <div class="course-field mb--15 mt-5">
-                        {{ form_label(form.fonction) }}
-                        {{ form_widget(form.fonction, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.fonction) }}
-                        {# <small class="d-block mt_dec--5"><i class="feather-info"></i> Title should be 30 charecter.</small> #}
+                    <div class="course-field mb--20 mt-5">
+                        {{ form_label(form.besoin) }}
+                        <div class="rbt-modern-select bg-transparent height-45 w-100 mb--10">
+                            {{ form_widget(form.besoin, {
+                                'attr': {
+                                    'class': 'w-100',
+                                    'multiple': 'multiple',
+                                    'data-size': '7',
+                                    'data-selected-text-format': 'count > 2',
+                                    'title': 'Selectionner'
+                                }
+                            }) }}
+                            {{ form_errors(form.besoin) }}
+                        </div>
                     </div>
 
                     <hr class="mt-5">
 
                     <div class="course-field mb--15 mt-5">
-                        {{ form_label(form.intitule_projet) }}
+                        <label for="{{ form.intitule_projet.vars.id }}">{{ form.intitule_projet.vars.label }}{% if form.intitule_projet.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
                         {{ form_widget(form.intitule_projet, {'attr': {'class': 'form-control'}}) }}
                         {{ form_errors(form.intitule_projet) }}
                     </div>
 
                     <div class="course-field mb--15 mt-5">
+                        {{ form_label(form.date_event) }}
+                        {{ form_widget(form.date_event, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.date_event) }}
+                    </div>
+
+                    <div class="course-field mb--15 mt-5">
                         {# {{ form_label(form.brief) }} #}
-                        <label for="{{ form.brief.vars.id }}">
-                            {{ form.brief.vars.label }}
-                            {% if form.brief.vars.required %}
-                                <span class="text-danger">*</span>
-                            {% endif %}
-                        </label>
+                        <label for="{{ form.brief.vars.id }}">{{ form.brief.vars.label }}{% if form.brief.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
                         {{ form_widget(form.brief, {'attr': {'class': 'form-control', 'rows': 6}}) }}
                         {{ form_errors(form.brief) }}
                         <small class="d-block mt_dec--5">
                             <i class="feather-info"></i>
-                            Merci de fournir un maximum de détails : dates, lieu, public concerné, intervenants, objectifs, etc.
+                            Merci de fournir un maximum de détails : éléments de contenus, faire figurer, ...
                         </small>
                     </div>
 
                     <hr class="mt-5">
 
                     <div class="row row-15">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="course-field mb--15 mt-5">
                                 {{ form_label(form.formats) }}
                                 {{ form_widget(form.formats) }}
@@ -116,25 +127,37 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        {# <div class="col-lg-6">
                             <div class="course-field mb--15 mt-5">
                                 {{ form_label(form.supports) }}
                                 {{ form_widget(form.supports) }}
                                 {{ form_errors(form.supports) }}
                             </div>
-                        </div>
+                        </div> #}
+                    </div>
+
+                    <div class="course-field mb--15 mt-5">
+                        <label for="{{ form.date_limite.vars.id }}">{{ form.date_limite.vars.label }}{% if form.date_limite.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
+                        {{ form_widget(form.date_limite, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.date_limite) }}
                     </div>
 
                     <hr class="mt-5">
 
                     <div class="course-field mb--20 mt-5">
-                        <h6>Pièces jointes</h6>
+                        <h6>Pièces jointes (Fichier de base à améliorer ou inspirations)</h6>
                         <div class="dropzone" id="my-dropzone">
                             {{ form_widget(form.pieces_jointes, {'attr': {'class': 'd-none'}}) }}
                         </div>
                         <small class="d-block mt-2 text-muted">
-                            <i class="feather-info"></i> Glissez-déposez vos fichiers ici (max 10 Mo / PDF, JPG, PNG)
+                            <i class="feather-info"></i> Glissez-déposez vos fichiers ici (max 10 Mo / PDF, JPG, PNG, WORD, PPT, ...)
                         </small>
+                    </div>
+
+                    <div class="course-field mb--15 mt-5">
+                        <label for="{{ form.lien_ressources.vars.id }}">{{ form.lien_ressources.vars.label }}{% if form.lien_ressources.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
+                        {{ form_widget(form.lien_ressources, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.lien_ressources) }}
                     </div>
 
                     <hr class="mt-5">

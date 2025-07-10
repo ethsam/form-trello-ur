@@ -22,36 +22,33 @@ class FormulaireUrType extends AbstractType
             ->add('nom_prenom', TextType::class, [
                 'label' => 'Nom et prénom du demandeur',
             ])
-            ->add('composante', ChoiceType::class, [
-                'label' => 'Composante concernée',
+            ->add('besoin', ChoiceType::class, [
+                'label' => 'Besoin',
                 'choices' => [
-                    'Web Developer' => 'web_dev',
-                    'App Developer' => 'app_dev',
-                    'Javascript' => 'js',
-                    'React' => 'react',
-                    'WordPress' => 'wp',
-                    'jQuery' => 'jquery',
-                    'Vue Js' => 'vue',
-                    'Angular' => 'angular',
+                    'Création' => 'creation',
+                    'Amélioration' => 'amelioration',
                 ],
                 'placeholder' => false,
+                'required' => true,
                 'multiple' => true,       // ✅ important
-                'expanded' => false       // ✅ sinon Symfony utilise des cases à cocher
+                'expanded' => false,       // ✅ sinon Symfony utilise des cases à cocher
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email de contact',
+                'required' => true,
             ])
             ->add('telephone', TelType::class, [
                 'label' => 'Téléphone',
                 'required' => false,
             ])
-            ->add('fonction', TextType::class, [
-                'label' => 'Fonction / rôle',
-            ])
 
             // 🎯 OBJECTIF
             ->add('intitule_projet', TextType::class, [
                 'label' => 'Intitulé du projet / action',
+            ])
+            ->add('date_event', DateType::class, [
+                'label' => "Date de l'évènement",
+                'required' => true,
             ])
 
             ->add('brief', TextareaType::class, [
@@ -74,17 +71,22 @@ class FormulaireUrType extends AbstractType
                 ]
             ])
 
-            ->add('supports', ChoiceType::class, [
-                'label' => 'Supports de diffusion',
-                'expanded' => true,
-                'multiple' => true,
-                'choices' => [
-                    'Impression' => 'impression',
-                    'Réseaux sociaux' => 'reseaux',
-                    'Site web' => 'web',
-                    'Mail / Newsletter' => 'mail',
-                    'Autre' => 'autre',
-                ]
+            // ->add('supports', ChoiceType::class, [
+            //     'label' => 'Supports de diffusion',
+            //     'expanded' => true,
+            //     'multiple' => true,
+            //     'choices' => [
+            //         'Impression' => 'impression',
+            //         'Réseaux sociaux' => 'reseaux',
+            //         'Site web' => 'web',
+            //         'Mail / Newsletter' => 'mail',
+            //         'Autre' => 'autre',
+            //     ]
+            // ])
+
+            ->add('date_limite', DateType::class, [
+                'label' => "Date limite de réception souhaitée",
+                'required' => true,
             ])
 
             // 📎 PIÈCES JOINTES
@@ -94,6 +96,11 @@ class FormulaireUrType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'attr' => ['class' => 'dropzone', 'id' => 'my-dropzone']
+            ])
+
+            ->add('lien_ressources', TextType::class, [
+                'label' => 'Lien (lien vers projet Canva, weetransfer, ...)',
+                'required' => false,
             ])
         ;
     }
