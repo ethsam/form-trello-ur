@@ -27,7 +27,7 @@
 <div class="rbt-create-course-area bg-color-white rbt-section-gap">
     <div class="container">
         <div class="row g-5">
-            <div class="col-lg-8">
+            <div class="col-lg-8 mx-auto">
                 <h1 class="mb--20">Formulaire de demande</h1>
 
                 {{ form_start(form) }}
@@ -35,7 +35,7 @@
                 <div class="rbt-course-field-wrapper rbt-default-form">
 
                     <div class="course-field mb--15">
-                        {{ form_label(form.nom_prenom) }}
+                        <label for="{{ form.nom_prenom.vars.id }}">{{ form.nom_prenom.vars.label }}{% if form.nom_prenom.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
                         {{ form_widget(form.nom_prenom, {'attr': {'class': 'form-control', 'id': 'field-1'}}) }}
                         {{ form_errors(form.nom_prenom) }}
                         {# <small class="d-block mt_dec--5"><i class="feather-info"></i> test de texte indication ou aide.</small> #}
@@ -76,8 +76,14 @@
                         </div>
                     </div>
 
+                    <div class="course-field mb--15 mt-5">
+                        <label for="{{ form.composant_consernee.vars.id }}">{{ form.composant_consernee.vars.label }}{% if form.composant_consernee.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
+                        {{ form_widget(form.composant_consernee, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.composant_consernee) }}
+                    </div>
+
                     <div class="course-field mb--20 mt-5">
-                        {{ form_label(form.besoin) }}
+                        <label for="{{ form.besoin.vars.id }}">{{ form.besoin.vars.label }}{% if form.besoin.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
                         <div class="rbt-modern-select bg-transparent height-45 w-100 mb--10">
                             {{ form_widget(form.besoin, {
                                 'attr': {
@@ -100,7 +106,7 @@
                     </div>
 
                     <div class="course-field mb--15 mt-5">
-                        {{ form_label(form.date_event) }}
+                        <label for="{{ form.date_event.vars.id }}">{{ form.date_event.vars.label }}{% if form.date_event.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
                         {{ form_widget(form.date_event, {'attr': {'class': 'form-control'}}) }}
                         {{ form_errors(form.date_event) }}
                     </div>
@@ -112,7 +118,7 @@
                         {{ form_errors(form.brief) }}
                         <small class="d-block mt_dec--5">
                             <i class="feather-info"></i>
-                            Merci de fournir un maximum de détails : éléments de contenus, faire figurer, ...
+                            Merci de fournir un maximum de détails : éléments de contenus, logo à faire figurer, ...
                         </small>
                     </div>
 
@@ -134,7 +140,7 @@
 
                     <div class="course-field mb--15 mt-5">
                         <label for="{{ form.date_limite.vars.id }}">{{ form.date_limite.vars.label }}{% if form.date_limite.vars.required %}<span class="text-danger">*</span>{% endif %}</label>
-                        {{ form_widget(form.date_limite, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(form.date_limite, {'attr': {'class': 'form-control date'}}) }}
                         {{ form_errors(form.date_limite) }}
                     </div>
 
@@ -146,7 +152,7 @@
                             {{ form_widget(form.pieces_jointes, {'attr': {'class': 'd-none'}}) }}
                         </div>
                         <small class="d-block mt-2 text-muted">
-                            <i class="feather-info"></i> Glissez-déposez vos fichiers ici (max 10 Mo / PDF, JPG, PNG, WORD, PPT, ...)
+                            <i class="feather-info"></i> Glissez-déposez vos fichiers ici (max 100 Mo / PDF, JPG, PNG, WORD, PPT, ...)
                         </small>
                     </div>
 

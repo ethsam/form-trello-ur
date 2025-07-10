@@ -20,12 +20,17 @@ class FormulaireUrType extends AbstractType
         $builder
             ->add('nom_prenom', TextType::class, [
                 'label' => 'Nom et prénom du demandeur',
+                'required' => true,
+            ])
+            ->add('composant_consernee', TextType::class, [
+                'label' => 'Composante consernée',
+                'required' => true,
             ])
             ->add('besoin', ChoiceType::class, [
                 'label' => 'Besoin',
                 'choices' => [
                     'Création' => 'creation',
-                    'Amélioration' => 'amelioration',
+                    'Amélioration (word, ppt ou Trame Canva à ameliorer)' => 'amelioration',
                 ],
                 'placeholder' => false,
                 'required' => true,
@@ -55,7 +60,7 @@ class FormulaireUrType extends AbstractType
             ])
 
             ->add('formats', ChoiceType::class, [
-                'label' => 'Formats souhaités',
+                'label' => 'Formats souhaités ( Plusieurs choix possibles )',
                 'expanded' => true,
                 'multiple' => true,
                 'choices' => [
@@ -100,7 +105,7 @@ class FormulaireUrType extends AbstractType
             ])
 
             ->add('lien_ressources', TextType::class, [
-                'label' => 'Lien (lien vers projet Canva, weetransfer, ...)',
+                'label' => 'Lien (lien vers projet Canva, fileSender, ...)',
                 'required' => false,
             ])
         ;
