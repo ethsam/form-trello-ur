@@ -10,5 +10,7 @@
 /public/.htaccess
 /DEBUG/*
 /.env.dev
+/.env
+/.env.prod
 /public/assets/uploads/attachments/*
 ###< symfony/framework-bundle ###
