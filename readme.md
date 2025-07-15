@@ -62,3 +62,10 @@ curl "https://api.trello.com/1/boards/BOARD_ID/lists?key=TRELLO_KEY&token=TRELLO
 ```
 
 Cela vous retournera un tableau JSON avec les `id` et `name` de chaque liste.
+
+##Installation
+
+```bash
+symfony console doctrine:database:create
+symfony console doctrine:migrations:migrate
+```

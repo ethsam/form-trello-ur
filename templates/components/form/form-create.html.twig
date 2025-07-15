@@ -1,0 +1,162 @@
+<style>
+    .col-12.mb--20.mt-5.radio-btn-formats label {
+        font-size: 17px;
+        line-height: 25px;
+    }
+
+    .radio-btn-formats input[type="checkbox"] {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    .radio-btn-formats label {
+        font-size: 17px;
+        line-height: 35px;
+        cursor: pointer;
+    }
+
+    .radio-btn-formats .check-box {
+        margin-bottom: 10px;
+    }
+</style>
+
+<form method="POST" action="{{ path('app_member_create') }}" enctype="multipart/form-data">
+    <div class="rbt-course-field-wrapper rbt-default-form">
+
+        <div class="course-field mb--15">
+            <label for="nom_prenom">Nom et prénom<span class="text-danger"> *</span></label>
+            <input type="text" name="nom_prenom" id="nom_prenom" class="form-control" required>
+        </div>
+
+        <div class="row row-15">
+            <div class="col-lg-6">
+                <div class="course-field mb--15 mt-5">
+                    <label for="email">Email de contact<span class="text-danger"> *</span></label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="course-field mb--15 mt-5">
+                    <label for="telephone">Téléphone</label>
+                    <input type="tel" name="telephone" id="telephone" class="form-control">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="course-field mb--15 mt-5">
+            <label for="composant_consernee">Composante concernée<span class="text-danger"> *</span></label>
+            <input type="text" name="composant_consernee" id="composant_consernee" class="form-control" required>
+        </div>
+
+        <div class="course-field mb--20 mt-5">
+            <label for="besoin">Besoin<span class="text-danger"> *</span></label>
+            <div class="rbt-modern-select bg-transparent height-45 w-100 mb--10">
+                <select name="besoin" id="besoin" class="form-control" required>
+                    <option value="creation">Création</option>
+                    <option value="amelioration">Amélioration</option>
+                </select>
+            </div>
+        </div>
+
+        <hr class="mt-5">
+
+        <div class="course-field mb--15 mt-5">
+            <label for="intitule_projet">Intitulé du projet<span class="text-danger"> *</span></label>
+            <input type="text" name="intitule_projet" id="intitule_projet" class="form-control">
+        </div>
+
+        <div class="course-field mb--15 mt-5">
+            <label for="date_event">Date de l’évènement<span class="text-danger"> *</span></label>
+            <input type="date" name="date_event" id="date_event" class="form-control" required>
+        </div>
+
+        <div class="course-field mb--15 mt-5">
+            <label for="brief">Brief<span class="text-danger"> *</span></label>
+            <textarea name="brief" id="brief" rows="5" class="form-control mb-3" required></textarea>
+            <small class="d-block mt_dec--5">
+                <i class="feather-info"></i>
+                Merci de fournir un maximum de détails : éléments de contenus, logo à faire figurer, ...
+            </small>
+        </div>
+
+        <hr class="mt-5">
+
+        <div class="col-12 mb--20 mt-5 radio-btn-formats">
+            <label class="d-block mb-2">Formats souhaités<span class="text-danger"> *</span></label>
+
+            <div class="row">
+                {% for format in formats %}
+                    <div class="check-box">
+                        <input type="checkbox" id="format_{{ format.id }}" name="formats[]" value="{{ format.id }}">
+                        <label for="format_{{ format.id }}">{{ format.title }}</label>
+                    </div>
+                {% endfor %}
+
+                <div class="check-box">
+                    <input type="checkbox" id="format_0" name="formats[]" value="0">
+                    <label for="format_0">Autre</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="autre-format-wrapper" class="course-field mt-3" style="display: none;">
+            <label for="autre_format_input">Précisez le format souhaité :</label>
+            <input type="text" name="format_autre" id="autre_format_input" class="form-control">
+        </div>
+
+        <div class="course-field mb--15 mt-5">
+            <label for="date_limite">Date limite de réception souhaitée<span class="text-danger"> *</span></label>
+            <input type="date" name="date_limite" id="date_limite" class="form-control" required>
+        </div>
+
+        <hr class="mt-5">
+
+        <div class="course-field mb--20 mt-5">
+            <h6>Pièces jointes (Fichier de base à améliorer ou inspirations)</h6>
+
+            <label for="pieces_jointes">Pièces jointes</label>
+            <div id="my-dropzone" class="dropzone"></div>
+            {# <input type="hidden" name="attachments_ids[]" id="attachments_ids"> #}
+            <input type="hidden" name="attachments_ids" id="attachments_ids">
+
+            <small class="d-block mt-2 text-muted">
+                <i class="feather-info"></i> Glissez-déposez vos fichiers ici (max 100 Mo / PDF, JPG, PNG, WORD, PPT, ...)
+            </small>
+        </div>
+
+        <div class="course-field mb--15 mt-5">
+            <label for="lien_ressources">Lien ressources (Canva, filesender...)<span class="text-danger"> *</span></label>
+            <input type="url" name="lien_ressources" id="lien_ressources" class="form-control">
+        </div>
+
+        <hr class="mt-5">
+
+    </div>
+
+    <div class="mt--20 text-center">
+        <button type="submit" style="padding: 2rem;font-size: large;" class="btn btn-primary">Envoyer la demande</button>
+    </div>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxAutre = document.getElementById('format_0');
+        const wrapper = document.getElementById('autre-format-wrapper');
+
+        if (checkboxAutre && wrapper) {
+            checkboxAutre.addEventListener('change', function () {
+                if (this.checked) {
+                    wrapper.style.display = 'block';
+                } else {
+                    wrapper.style.display = 'none';
+                    document.getElementById('autre_format_input').value = '';
+                }
+            });
+        }
+    });
+</script>
+

@@ -26275,8 +26275,8 @@ blockquote.has-text-align-right cite,
 .checkout-form label,
 .rbt-default-form label {
   display: block;
-  font-size: 14px;
-  margin-bottom: 12px;
+  font-size: 17px;
+  margin-bottom: 0px;
   font-weight: 600;
   /* text-transform: capitalize; */
   color: var(--color-heading);

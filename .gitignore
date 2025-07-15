@@ -9,4 +9,6 @@
 /vendor/
 /public/.htaccess
 /DEBUG/*
+/.env.dev
+/public/assets/uploads/attachments/*
 ###< symfony/framework-bundle ###
