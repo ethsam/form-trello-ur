@@ -28,22 +28,29 @@ final class MemberController extends AbstractController
     #[Route('/dashboard', name: 'app_member')]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('member/index.html.twig', [
             'controller_name' => 'MemberController',
+            'userConnected' => $this->getUser(),
         ]);
     }
 
     #[Route('/dashboard/history', name: 'app_member_history')]
     public function history(): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('member/index.html.twig', [
             'controller_name' => 'MemberController',
+            'userConnected' => $this->getUser(),
         ]);
     }
 
     #[Route('/dashboard/create', name: 'app_member_create')]
     public function create(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $formats = $this->repoFormat->findAll();
 
         if ($request->isMethod('POST')) {
@@ -85,6 +92,7 @@ final class MemberController extends AbstractController
 
         return $this->render('pages/actions/add.html.twig', [
             'formats' => $formats,
+            'userConnected' => $this->getUser(),
         ]);
     }
 

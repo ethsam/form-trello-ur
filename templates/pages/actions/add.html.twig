@@ -75,6 +75,7 @@
 
         let myDropzone = new Dropzone("#my-dropzone", {
             url: "{{ path('app_member_upload') }}",
+            dictDefaultMessage: "Glissez vos fichiers ici ou cliquez pour téléverser",
             paramName: "file",
             maxFilesize: 100, // MB
             acceptedFiles: ".pdf,.jpg,.jpeg,.png,.doc,.docx,.ppt,.pptx",

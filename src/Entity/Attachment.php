@@ -32,6 +32,7 @@ class Attachment
     private ?int $imageSize = null;
 
     #[ORM\ManyToOne(inversedBy: 'attachments')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?Ticket $ticket = null;
 
     public function getId(): ?int

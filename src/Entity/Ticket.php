@@ -43,7 +43,7 @@ class Ticket
     /**
      * @var Collection<int, Attachment>
      */
-    #[ORM\OneToMany(targetEntity: Attachment::class, mappedBy: 'ticket')]
+    #[ORM\OneToMany(mappedBy: 'ticket', targetEntity: Attachment::class, cascade: ['persist', 'remove'], orphanRemoval: false)]
     private Collection $attachments;
 
     /**

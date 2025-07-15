@@ -4,7 +4,10 @@ namespace App\Controller\Admin;
 
 use App\Entity\Ticket;
 use App\Form\AttachmentType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -35,7 +38,7 @@ class TicketCrudController extends AbstractCrudController
             TextField::new('title', 'Titre')->setColumns(12),
             TextEditorField::new('brief', 'Briefing')->setColumns(12)->hideOnIndex(),
             TextField::new('composante', 'Composante')->setColumns(12),
-            TextField::new('link', 'Lien')->setColumns(12),
+            TextField::new('link', 'Lien')->setColumns(12)->hideOnIndex(),
 
             CollectionField::new('attachments')->setEntryType(AttachmentType::class)
                                             ->setFormTypeOption('by_reference', false)
@@ -43,7 +46,7 @@ class TicketCrudController extends AbstractCrudController
                                             ->hideOnIndex()
                                             ->setTranslationParameters([
                                                 'form.label.delete'=>'Supprimer du serveur',
-                                                'action.choose_file'=>'Envoyer une image'
+                                                'action.choose_file'=>'Envoyer un fichier'
                                             ]),
 
             AssociationField::new('formats', 'Formats')
@@ -51,8 +54,24 @@ class TicketCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setFormTypeOption('by_reference', false) // Important pour les relations ManyToMany
                 ->setRequired(false)
-                ->setColumns(12)
-                ->autocomplete(),
+                ->setColumns(12),
+                //->autocomplete(),
         ];
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['id' => 'DESC'])
+            ->setEntityLabelInPlural('Demande')
+            ->setEntityLabelInSingular('Demandes')
+            ->setPageTitle('index', 'Gestion des Demandes')
+            ->setPageTitle('edit', 'Edit une Demande');
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->disable(Action::NEW); // ❌ désactive le bouton "Créer"
     }
 }

@@ -31,6 +31,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $clearpassword = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $username = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,14 +66,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     *
+     * @return list<string>
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        //$roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+        //return $this->roles;
+    }
+
+    //No mapping just for crud user admin
+    public function getRole(): ?string
+    {
+        return $this->roles[0] ?? null;
     }
 
     /**
@@ -76,6 +91,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    //No mapping just for crud user admin
+    public function setRole(?string $role): static
+    {
+        if ($role) {
+            $this->roles = [$role]; // on écrase tous les rôles par un seul
+        }
 
         return $this;
     }
@@ -102,5 +127,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->username;
+    }
+
+    public function getClearpassword(): ?string
+    {
+        return $this->clearpassword;
+    }
+
+    public function setClearpassword(?string $clearpassword): static
+    {
+        $this->clearpassword = $clearpassword;
+
+        return $this;
     }
 }

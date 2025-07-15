@@ -27,7 +27,7 @@
                             <li class="has-menu-child-item position-static">
                                 <a href="/">Accueil</a>
                             </li>
-                            <li class="has-menu-child-item position-static">
+                            {# <li class="has-menu-child-item position-static">
                                 <a href="#">Test</a>
                             </li>
                             <li class="has-menu-child-item position-static">
@@ -35,7 +35,7 @@
                             </li>
                             <li class="has-menu-child-item position-static">
                                 <a href="#">Test</a>
-                            </li>
+                            </li> #}
                         </ul>
                     </nav>
                 </div>
@@ -46,69 +46,41 @@
                     <ul class="quick-access">
 
                         <li class="account-access rbt-user-wrapper d-none d-xl-block">
-                            <a href="#"><i class="feather-user"></i>Mon Compte</a>
+                            <a href="/dashboard"><i class="feather-user"></i>Tableau de bord</a>
+
+                            {% if userConnected %}
                             <div class="rbt-user-menu-list-wrapper">
                                 <div class="inner">
                                     <div class="rbt-admin-profile">
-                                        <div class="admin-thumbnail">
+                                        {# <div class="admin-thumbnail">
                                             <img src="/assets/images/team/avatar.jpg" alt="User Images">
-                                        </div>
+                                        </div> #}
                                         <div class="admin-info">
                                             <span class="name">Samuel</span>
-                                            <a class="rbt-btn-link color-primary" href="#">Test</a>
+                                            {# <a class="rbt-btn-link color-primary" href="#">Test</a> #}
                                         </div>
                                     </div>
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="#">
+                                            <a href="/dashboard">
                                                 <i class="feather-home"></i>
-                                                <span>My Dashboard</span>
-                                            </a>
-                                        </li>
-                                        {# <li>
-                                            <a href="#">
-                                                <i class="feather-bookmark"></i>
-                                                <span>Bookmark</span>
+                                                <span>Tableau de bord</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="instructor-enrolled-courses.html">
-                                                <i class="feather-shopping-bag"></i>
-                                                <span>Enrolled Courses</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="instructor-wishlist.html">
-                                                <i class="feather-heart"></i>
-                                                <span>Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="feather-star"></i>
-                                                <span>Reviews</span>
-                                            </a>
-                                        </li> #}
-                                        {# <li>
-                                            <a href="instructor-my-quiz-attempts.html">
-                                                <i class="feather-list"></i>
-                                                <span>My Quiz Attempts</span>
-                                            </a>
-                                        </li> #}
-                                        <li>
-                                            <a href="#">
+                                            <a href="/dashboard/history">
                                                 <i class="feather-clock"></i>
-                                                <span>Test</span>
+                                                <span>Historique</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="/dashboard/create">
                                                 <i class="feather-message-square"></i>
-                                                <span>Test</span>
+                                                <span>Nouvelle demande</span>
                                             </a>
                                         </li>
                                     </ul>
-                                    <hr class="mt--10 mb--10">
+                                    {# <hr class="mt--10 mb--10">
 
                                     <ul class="user-list-wrapper">
                                         <li>
@@ -117,15 +89,15 @@
                                                 <span>test</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> #}
 
                                     <hr class="mt--10 mb--10">
 
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="instructor-settings.html">
+                                            <a href="/admin">
                                                 <i class="feather-settings"></i>
-                                                <span>Settings</span>
+                                                <span>Admin</span>
                                             </a>
                                         </li>
                                         <li>
@@ -138,8 +110,10 @@
 
                                 </div>
                             </div>
+                            {% endif %}
                         </li>
 
+                        {% if userConnected %}
                         <li class="access-icon rbt-user-wrapper d-block d-xl-none">
                             <a class="rbt-round-btn" href="#"><i class="feather-user"></i></a>
                             <div class="rbt-user-menu-list-wrapper">
@@ -155,55 +129,25 @@
                                     </div>
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="#">
+                                            <a href="/dashboard">
                                                 <i class="feather-home"></i>
-                                                <span>My Dashboard</span>
-                                            </a>
-                                        </li>
-                                        {# <li>
-                                            <a href="#">
-                                                <i class="feather-bookmark"></i>
-                                                <span>Bookmark</span>
+                                                <span>Tableau de bord</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="instructor-enrolled-courses.html">
-                                                <i class="feather-shopping-bag"></i>
-                                                <span>Enrolled Courses</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="instructor-wishlist.html">
-                                                <i class="feather-heart"></i>
-                                                <span>Wishlist</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="instructor-reviews.html">
-                                                <i class="feather-star"></i>
-                                                <span>Reviews</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="instructor-my-quiz-attempts.html">
-                                                <i class="feather-list"></i>
-                                                <span>My Quiz Attempts</span>
-                                            </a>
-                                        </li> #}
-                                        <li>
-                                            <a href="#">
+                                            <a href="/dashboard/history">
                                                 <i class="feather-clock"></i>
-                                                <span>Test</span>
+                                                <span>Historique</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="/dashboard/create">
                                                 <i class="feather-message-square"></i>
-                                                <span>Test</span>
+                                                <span>Nouvelle demande</span>
                                             </a>
                                         </li>
                                     </ul>
-                                    <hr class="mt--10 mb--10">
+                                    {# <hr class="mt--10 mb--10">
                                     <ul class="user-list-wrapper">
                                         <li>
                                             <a href="#">
@@ -211,13 +155,13 @@
                                                 <span>Test</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> #}
                                     <hr class="mt--10 mb--10">
                                     <ul class="user-list-wrapper">
                                         <li>
-                                            <a href="#">
+                                            <a href="/admin">
                                                 <i class="feather-settings"></i>
-                                                <span>Settings</span>
+                                                <span>Administration</span>
                                             </a>
                                         </li>
                                         <li>
@@ -230,6 +174,7 @@
                                 </div>
                             </div>
                         </li>
+                        {% endif %}
 
                     </ul>
 
@@ -281,12 +226,12 @@
                 <li class="has-menu-child-item position-static no-decolor">
                     <a href="/">Accueil</a>
                 </li>
-                <li class="has-menu-child-item position-static no-decolor">
+                {# <li class="has-menu-child-item position-static no-decolor">
                     <a href="/">Test</a>
                 </li>
                 <li class="has-menu-child-item position-static no-decolor">
                     <a href="/">Test</a>
-                </li>
+                </li> #}
             </ul>
         </nav>
 

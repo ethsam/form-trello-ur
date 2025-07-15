@@ -61,7 +61,7 @@ final class TestController extends AbstractController
     #[Route('/formulaire-full-components', name: 'app_components')]
     public function testcomponents(Request $request): Response
     {
-        return $this->render('pages/form-full.html.twig', [
+        return $this->render('pages/index.html.twig', [
             'test' => "test",
         ]);
     }

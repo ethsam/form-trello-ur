@@ -39,6 +39,7 @@ class DashboardController extends AbstractDashboardController
                 // yield MenuItem::linktoRoute('Gérer la Une', 'far fa-newspaper', 'app_articles_en_une'),
                 yield MenuItem::linkToCrud('Gestion Formats', 'fas fa-file-alt', \App\Entity\Format::class)->setController(FormatCrudController::class),
                 yield MenuItem::linkToCrud('Gestion Demande', 'fas fa-file-alt', \App\Entity\Ticket::class)->setController(TicketCrudController::class),
+                yield MenuItem::linkToCrud('Gestion Utilisateurs', 'fas fa-file-alt', \App\Entity\User::class)->setController(UserCrudController::class),
 
                 yield MenuItem::section('', ''),
                 yield MenuItem::linkToUrl('univ-reunion.fr', 'fas fa-at', 'https://www.univ-reunion.fr/')->setLinkTarget('_blank'),
@@ -52,6 +53,7 @@ class DashboardController extends AbstractDashboardController
                 // yield MenuItem::linktoRoute('Gérer la Une', 'far fa-newspaper', 'app_articles_en_une'),
                 yield MenuItem::linkToCrud('Gestion Formats', 'fas fa-file-alt', \App\Entity\Format::class)->setController(FormatCrudController::class),
                 yield MenuItem::linkToCrud('Gestion Demande', 'fas fa-file-alt', \App\Entity\Ticket::class)->setController(TicketCrudController::class),
+                yield MenuItem::linkToCrud('Gestion Utilisateurs', 'fas fa-file-alt', \App\Entity\User::class)->setController(UserCrudController::class),
 
                 yield MenuItem::section('', ''),
                 yield MenuItem::linkToUrl('univ-reunion.fr', 'fas fa-at', 'https://www.univ-reunion.fr/')->setLinkTarget('_blank'),
