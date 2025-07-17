@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
 
 final class MemberController extends AbstractController
 {
@@ -23,20 +24,21 @@ final class MemberController extends AbstractController
     private TrelloService $trello;
     private UploaderHelper $uploaderHelper;
     private $httpClient;
+    private $mailer;
     private $trelloKey;
     private $trelloToken;
     private string $col_a_faire;
     private string $col_en_cours;
     private string $col_terminer;
 
-    public function __construct(FormatRepository $repoFormat, EntityManagerInterface $manager, TrelloService $trello, UploaderHelper $uploaderHelper, HttpClientInterface $httpClient)
+    public function __construct(FormatRepository $repoFormat, EntityManagerInterface $manager, TrelloService $trello, UploaderHelper $uploaderHelper, HttpClientInterface $httpClient, MailerInterface $mailer)
     {
         $this->repoFormat = $repoFormat;
         $this->manager = $manager;
         $this->trello = $trello;
         $this->uploaderHelper = $uploaderHelper;
         $this->httpClient = $httpClient;
-
+        $this->mailer = $mailer;
         $this->trelloKey = $_ENV['TRELLO_KEY'];
         $this->trelloToken = $_ENV['TRELLO_TOKEN'];
         $this->col_a_faire = $_ENV['COL_A_FAIRE'];
@@ -199,5 +201,17 @@ final class MemberController extends AbstractController
         return ['status' => true, 'cardId' => $cardId];
     }
 
+    public function sendMailAfterCreate(Ticket $ticket): void
+    {
+        $email = (new TemplatedEmail())
+            ->from('no-reply@example.com')
+            ->to('user@example.com')
+            ->subject('New ticket created')
+            ->htmlTemplate('emails/ticket_created.html.twig')
+            ->context([
+                'ticket' => $ticket,
+            ]);
 
+        $this->mailer->send($email);
+    }
 }
