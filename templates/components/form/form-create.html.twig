@@ -27,14 +27,14 @@
 
         <div class="course-field mb--15">
             <label for="nom_prenom">Nom et prénom<span class="text-danger"> *</span></label>
-            <input type="text" name="nom_prenom" id="nom_prenom" class="form-control" required>
+            <input type="text" name="nom_prenom" id="nom_prenom" class="form-control" value="{{ userConnected.username }}" readonly>
         </div>
 
         <div class="row row-15">
             <div class="col-lg-6">
                 <div class="course-field mb--15 mt-5">
                     <label for="email">Email de contact<span class="text-danger"> *</span></label>
-                    <input type="email" name="email" id="email" class="form-control" required>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ userConnected.email }}" readonly>
                 </div>
             </div>
 

@@ -14,7 +14,6 @@ final class TestController extends AbstractController
 {
     private string $trelloKey;
     private string $trelloToken;
-
     private string $col_a_faire;
     private string $col_en_cours;
     private string $col_terminer;
@@ -58,13 +57,6 @@ final class TestController extends AbstractController
         ]);
     }
 
-    #[Route('/formulaire-full-components', name: 'app_components')]
-    public function testcomponents(Request $request): Response
-    {
-        return $this->render('pages/index.html.twig', [
-            'test' => "test",
-        ]);
-    }
 
     #[Route('/action/ajouter', name: 'action_add')]
     public function actionAdd(Request $request): Response

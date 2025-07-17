@@ -52,6 +52,9 @@ class Ticket
     #[ORM\ManyToMany(targetEntity: Format::class, mappedBy: 'tickets')]
     private Collection $formats;
 
+    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
@@ -212,6 +215,18 @@ class Ticket
         if ($this->formats->removeElement($format)) {
             $format->removeTicket($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
