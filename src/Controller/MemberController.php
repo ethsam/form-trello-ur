@@ -7,6 +7,7 @@ use App\Entity\Attachment;
 use App\Form\FormulaireUrType;
 use App\Service\TrelloService;
 use App\Repository\FormatRepository;
+use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,8 +32,9 @@ final class MemberController extends AbstractController
     private string $col_a_faire;
     private string $emailCreatif;
     private string $emailDirection;
+    private $repoTicket;
 
-    public function __construct(FormatRepository $repoFormat, EntityManagerInterface $manager, TrelloService $trello, UploaderHelper $uploaderHelper, HttpClientInterface $httpClient, MailerInterface $mailer)
+    public function __construct(FormatRepository $repoFormat, EntityManagerInterface $manager, TrelloService $trello, UploaderHelper $uploaderHelper, HttpClientInterface $httpClient, MailerInterface $mailer, TicketRepository $repoTicket)
     {
         $this->repoFormat = $repoFormat;
         $this->manager = $manager;
@@ -45,6 +47,7 @@ final class MemberController extends AbstractController
         $this->col_a_faire = $_ENV['COL_A_FAIRE'];
         $this->emailCreatif = "setheve@viceversa.re";
         $this->emailDirection = "mmaitre@viceversa.re";
+        $this->repoTicket = $repoTicket;
     }
 
     #[Route('/dashboard', name: 'app_member')]
@@ -61,7 +64,7 @@ final class MemberController extends AbstractController
     #[Route('/dashboard/history', name: 'app_member_history')]
     public function history(): Response
     {
-        $tickets = $this->manager->getRepository(Ticket::class)->findBy(['user' => $this->getUser()]);
+        $tickets = $this->manager->getRepository(Ticket::class)->findBy(['user' => $this->getUser()], ['createdAt' => 'DESC']);
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('member/history.html.twig', [
@@ -241,5 +244,20 @@ final class MemberController extends AbstractController
             ]);
 
         $this->mailer->send($email);
+    }
+
+    #[Route('/dashboard/testmail', name: 'app_member_testmail')]
+    public function testMail(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $ticket = $this->repoTicket->findOne();
+
+        $this->sendMailAfterCreateIfError($ticket, $this->emailCreatif);
+
+        return $this->render('member/index.html.twig', [
+            'controller_name' => 'MemberController',
+            'userConnected' => $this->getUser(),
+        ]);
     }
 }
