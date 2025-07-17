@@ -8,14 +8,15 @@ use App\Form\FormulaireUrType;
 use App\Service\TrelloService;
 use App\Repository\FormatRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Mailer\MailerInterface;
 
 final class MemberController extends AbstractController
 {
@@ -30,6 +31,8 @@ final class MemberController extends AbstractController
     private string $col_a_faire;
     private string $col_en_cours;
     private string $col_terminer;
+    private string $emailCreatif;
+    private string $emailDirection;
 
     public function __construct(FormatRepository $repoFormat, EntityManagerInterface $manager, TrelloService $trello, UploaderHelper $uploaderHelper, HttpClientInterface $httpClient, MailerInterface $mailer)
     {
@@ -44,6 +47,8 @@ final class MemberController extends AbstractController
         $this->col_a_faire = $_ENV['COL_A_FAIRE'];
         $this->col_en_cours = $_ENV['COL_EN_COURS'];
         $this->col_terminer = $_ENV['COL_TERMINER'];
+        $this->emailCreatif = "setheve@viceversa.re";
+        $this->emailDirection = "mmaitre@viceversa.re";
     }
 
     #[Route('/dashboard', name: 'app_member')]
@@ -111,9 +116,13 @@ final class MemberController extends AbstractController
             if ($statusCreate['status']) {
                 $this->manager->flush();
                 $this->addFlash('success', 'Demande envoyée avec succès et carte Trello créée.');
+                $this->sendMailAfterCreate($ticket, $this->emailCreatif);
+                $this->sendMailAfterCreate($ticket, $this->emailDirection);
                 return $this->redirectToRoute('app_member_history');
             } else {
                 $this->addFlash('error', 'Demande enregistrée, mais échec de création de la carte Trello.');
+                $this->sendMailAfterCreateIfError($ticket, $this->emailCreatif);
+                $this->sendMailAfterCreateIfError($ticket, $this->emailDirection);
                 return $this->redirectToRoute('app_member_history');
             }
 
@@ -201,13 +210,33 @@ final class MemberController extends AbstractController
         return ['status' => true, 'cardId' => $cardId];
     }
 
-    public function sendMailAfterCreate(Ticket $ticket): void
+    public function sendMailAfterCreate(Ticket $ticket, string $emailRecept): void
     {
+        $dateNow = new \DateTimeImmutable();
+        $objetMail = 'Nouvelle demande : ' .$dateNow->format('d/m/Y') . ' - '. $ticket->getTitle() . ' - ' . $ticket->getUser()->getUsername();
+
         $email = (new TemplatedEmail())
-            ->from('no-reply@example.com')
-            ->to('user@example.com')
-            ->subject('New ticket created')
+            ->from('support@viceversa.re')
+            ->to($emailRecept)
+            ->subject($objetMail)
             ->htmlTemplate('emails/ticket_created.html.twig')
+            ->context([
+                'ticket' => $ticket,
+            ]);
+
+        $this->mailer->send($email);
+    }
+
+    public function sendMailAfterCreateIfError(Ticket $ticket, string $emailRecept): void
+    {
+        $dateNow = new \DateTimeImmutable();
+        $objetMail = 'Nouvelle demande : ' .$dateNow->format('d/m/Y') . ' - '. $ticket->getTitle() . ' - ' . $ticket->getUser()->getUsername();
+
+        $email = (new TemplatedEmail())
+            ->from('support@viceversa.re')
+            ->to($emailRecept)
+            ->subject($objetMail)
+            ->htmlTemplate('emails/ticket_created_error.html.twig')
             ->context([
                 'ticket' => $ticket,
             ]);
