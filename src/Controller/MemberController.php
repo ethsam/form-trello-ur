@@ -251,7 +251,7 @@ final class MemberController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $ticket = $this->repoTicket->findOne();
+        $ticket = $this->repoTicket->getLastTicket();
 
         $this->sendMailAfterCreateIfError($ticket, $this->emailCreatif);
 
