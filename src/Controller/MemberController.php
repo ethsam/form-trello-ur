@@ -29,8 +29,6 @@ final class MemberController extends AbstractController
     private $trelloKey;
     private $trelloToken;
     private string $col_a_faire;
-    private string $col_en_cours;
-    private string $col_terminer;
     private string $emailCreatif;
     private string $emailDirection;
 
@@ -45,8 +43,6 @@ final class MemberController extends AbstractController
         $this->trelloKey = $_ENV['TRELLO_KEY'];
         $this->trelloToken = $_ENV['TRELLO_TOKEN'];
         $this->col_a_faire = $_ENV['COL_A_FAIRE'];
-        $this->col_en_cours = $_ENV['COL_EN_COURS'];
-        $this->col_terminer = $_ENV['COL_TERMINER'];
         $this->emailCreatif = "setheve@viceversa.re";
         $this->emailDirection = "mmaitre@viceversa.re";
     }
@@ -65,10 +61,13 @@ final class MemberController extends AbstractController
     #[Route('/dashboard/history', name: 'app_member_history')]
     public function history(): Response
     {
+        $tickets = $this->manager->getRepository(Ticket::class)->findBy(['user' => $this->getUser()]);
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        return $this->render('member/index.html.twig', [
+        return $this->render('member/history.html.twig', [
             'controller_name' => 'MemberController',
             'userConnected' => $this->getUser(),
+            'tickets' => $tickets,
         ]);
     }
 
