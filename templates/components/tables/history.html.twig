@@ -9,10 +9,9 @@
             <table class="rbt-table table table-borderless">
                 <thead>
                     <tr>
-                        <th>Order ID</th>
-                        <th>Course Name</th>
-                        <th>Date</th>
-                        <th>Price</th>
+                        <th>N° ID</th>
+                        <th>Crée le</th>
+                        <th>Titre projet</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -20,12 +19,11 @@
                 <tbody>
                 {% for ticketSingle in tickets %}
                     <tr>
-                        <th>#5478</th>
-                        <td>App Development</td>
-                        <td>January 27, 2024</td>
-                        <td>$100.99</td>
+                        <th>{{ ticketSingle.id }}</th>
+                        <td>{{ ticketSingle.createdAt|date('d/m/Y') }}</td>
+                        <td>{{ ticketSingle.title }}</td>
                         <td><span
-                                class="rbt-badge-5 bg-color-success-opacity color-success">Success</span>
+                                class="rbt-badge-5 bg-color-success-opacity color-success">test</span>
                         </td>
                     </tr>
                 {% endfor %}
