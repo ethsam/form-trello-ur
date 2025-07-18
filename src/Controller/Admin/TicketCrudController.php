@@ -56,6 +56,8 @@ class TicketCrudController extends AbstractCrudController
                 ->setRequired(false)
                 ->setColumns(12),
                 //->autocomplete(),
+
+            TextField::new('idTrello', 'ID Trello')->hideOnForm(),
         ];
     }
 
