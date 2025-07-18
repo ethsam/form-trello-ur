@@ -112,9 +112,9 @@ final class WebhookController extends AbstractController
                 $log = sprintf("ActionColum ID : %s - Email : %s - Status : %s - TitleColumn : %s\n", $actionColumSingle->getId(), $emailReceipt, $statusAction, $titleColumn);
                 file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
 
-                if ($emailReceipt === 'DEMANDEUR' && $statusAction === true) {
+                if ($emailReceipt == 'DEMANDEUR' && $statusAction == true) {
                     $this->sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard);
-                } elseif ($emailReceipt != 'DEMANDEUR' && $statusAction === false) {
+                } elseif ($emailReceipt != 'DEMANDEUR' && $statusAction == true) {
                     $this->sendMailAfterChangeColumnToEmailContainInActionColum($ticket, $contentBodyCard, $emailReceipt, $titleColumn);
                 }
             }
