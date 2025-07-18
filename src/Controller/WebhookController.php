@@ -181,7 +181,11 @@ final class WebhookController extends AbstractController
 
     public function convertMarkdownToHtml($contentBodyCard)
     {
-        $converter = new CommonMarkConverter();
+        $converter = new CommonMarkConverter([
+            'html_input' => 'escape',
+            'allow_unsafe_links' => false,
+        ]);
+
         $htmlBody = $converter->convert($contentBodyCard);
         return $htmlBody;
     }
