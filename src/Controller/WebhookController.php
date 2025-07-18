@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\TrelloService;
 
 final class WebhookController extends AbstractController
 {
@@ -20,13 +21,15 @@ final class WebhookController extends AbstractController
     private $repoActionColum;
     private $repoTicket;
     private $mailer;
+    private $trelloService;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, ActionColumRepository $repoActionColum, TicketRepository $repoTicket, MailerInterface $mailer)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, ActionColumRepository $repoActionColum, TicketRepository $repoTicket, MailerInterface $mailer, TrelloService $trelloService)
     {
         $this->projectDir = $projectDir;
         $this->repoActionColum = $repoActionColum;
         $this->repoTicket = $repoTicket;
         $this->mailer = $mailer;
+        $this->trelloService = $trelloService;
     }
 
     #[Route('/webhook', name: 'app_webhook', methods: ['GET', 'POST', 'HEAD'])]
@@ -53,15 +56,17 @@ final class WebhookController extends AbstractController
             $toListId = $data['action']['data']['listAfter']['id'] ?? 'Inconnue';
             $movedBy = $data['action']['memberCreator']['fullName'] ?? 'Quelqu’un';
             $timestamp = $data['action']['date'] ?? date('c');
-            $contentBodyCard = $data['action']['data']['card']['desc'] ?? 'rien...';
 
-            $logDataCard = print_r($data, true);
-            file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', "--- NEW EVENT ---\n" . $logDataCard . "\n\n", FILE_APPEND);
+            // $logDataCard = print_r($data, true);
+            // file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', "--- NEW EVENT ---\n" . $logDataCard . "\n\n", FILE_APPEND);
 
             $cardIdTrello = $data['action']['data']['card']['id'];
             $ticketByIdTrello = $this->repoTicket->findOneBy(['idTrello' => $cardIdTrello]);
 
             if ($ticketByIdTrello) {
+                $cardDetails = $this->trelloService->fetchCardDetails($cardIdTrello);
+                $contentBodyCard = $cardDetails['desc'] ?? '...';
+
                 $this->routingNotification($ticketByIdTrello, $toList, $toListId, $this->convertMarkdownToHtml($contentBodyCard));
             }
 

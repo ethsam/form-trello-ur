@@ -63,4 +63,25 @@ class TrelloService
             ],
         ]);
     }
+
+    public function fetchCardDetails(string $cardId): ?array
+    {
+        $key = $_ENV['TRELLO_KEY'];
+        $token = $_ENV['TRELLO_TOKEN'];
+
+        try {
+            $response = $this->client->request('GET', "https://api.trello.com/1/cards/{$cardId}", [
+                'query' => [
+                    'key' => $key,
+                    'token' => $token,
+                ],
+            ]);
+
+            return $response->toArray();
+        } catch (\Throwable $e) {
+            // Tu peux logguer l’erreur ici si besoin
+            return null;
+        }
+    }
+
 }
