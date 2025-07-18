@@ -50,6 +50,7 @@ final class WebhookController extends AbstractController
             $cardName = $data['action']['data']['card']['name'] ?? 'Carte inconnue';
             $fromList = $data['action']['data']['listBefore']['name'] ?? 'Inconnue';
             $toList = $data['action']['data']['listAfter']['name'] ?? 'Inconnue';
+            $toListId = $data['action']['data']['listAfter']['id'] ?? 'Inconnue';
             $movedBy = $data['action']['memberCreator']['fullName'] ?? 'Quelqu’un';
             $timestamp = $data['action']['date'] ?? date('c');
             $contentBodyCard = $data['action']['data']['card']['desc'] ?? 'rien...';
@@ -58,10 +59,10 @@ final class WebhookController extends AbstractController
             $ticketByIdTrello = $this->repoTicket->findOneBy(['idTrello' => $cardIdTrello]);
 
             if ($ticketByIdTrello) {
-                $this->routingNotification($ticketByIdTrello, $toList, $this->convertMarkdownToHtml($contentBodyCard));
+                $this->routingNotification($ticketByIdTrello, $toList, $toListId, $this->convertMarkdownToHtml($contentBodyCard));
             }
 
-            $log = sprintf("Carde ID : %s - [%s] 📦 %s a déplacé \"%s\" de [%s] vers [%s]\n", $cardIdTrello, $timestamp, $movedBy, $cardName, $fromList, $toList);
+            $log = sprintf("Carde ID : %s - [%s] 📦 %s a déplacé \"%s\" de [%s] vers [%s] - Liste ID : %s\n", $cardIdTrello, $timestamp, $movedBy, $cardName, $fromList, $toList, $toListId);
 
             file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
         }
@@ -90,9 +91,13 @@ final class WebhookController extends AbstractController
         );
     }
 
-    public function routingNotification(Ticket $ticket, $toList, $contentBodyCard)
+    public function routingNotification(Ticket $ticket, $toList, $toListId, $contentBodyCard)
     {
         $arrayActionColum = $this->repoActionColum->findBy(['titleColumn' => $toList]);
+
+        if (!$arrayActionColum) {
+            $arrayActionColum = $this->repoActionColum->findBy(['idColumn' => $toListId]);
+        }
 
         foreach ($arrayActionColum as $actionColumSingle) {
             $emailReceipt = $actionColumSingle->getEmailReceipt();
