@@ -99,17 +99,23 @@ final class WebhookController extends AbstractController
             $arrayActionColum = $this->repoActionColum->findBy(['idColumn' => $toListId]);
         }
 
-        foreach ($arrayActionColum as $actionColumSingle) {
-            $emailReceipt = $actionColumSingle->getEmailReceipt();
-            $statusAction = $actionColumSingle->isStatus();
-            $titleColumn = $actionColumSingle->getTitleColumn();
+        if (!$arrayActionColum) {
+            $log = sprintf("Aucune action trouvée pour la liste : %s\n", $toList);
+            file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
+        } else {
+            foreach ($arrayActionColum as $actionColumSingle) {
+                $emailReceipt = $actionColumSingle->getEmailReceipt();
+                $statusAction = $actionColumSingle->isStatus();
+                $titleColumn = $actionColumSingle->getTitleColumn();
 
-            if ($emailReceipt === 'DEMANDEUR' && $statusAction === true) {
-                $this->sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard);
-            } elseif ($emailReceipt != 'DEMANDEUR' && $statusAction === false) {
-                $this->sendMailAfterChangeColumnToEmailContainInActionColum($ticket, $contentBodyCard, $emailReceipt, $titleColumn);
+                if ($emailReceipt === 'DEMANDEUR' && $statusAction === true) {
+                    $this->sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard);
+                } elseif ($emailReceipt != 'DEMANDEUR' && $statusAction === false) {
+                    $this->sendMailAfterChangeColumnToEmailContainInActionColum($ticket, $contentBodyCard, $emailReceipt, $titleColumn);
+                }
             }
         }
+
     }
 
     public function sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard): void
