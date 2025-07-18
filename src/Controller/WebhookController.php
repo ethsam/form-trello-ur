@@ -113,7 +113,7 @@ final class WebhookController extends AbstractController
                 file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
 
                 if ($emailReceipt == 'DEMANDEUR' && $statusAction == true) {
-                    $this->sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard);
+                    $this->sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard, $titleColumn);
                 } elseif ($emailReceipt != 'DEMANDEUR' && $statusAction == true) {
                     $this->sendMailAfterChangeColumnToEmailContainInActionColum($ticket, $contentBodyCard, $emailReceipt, $titleColumn);
                 }
@@ -122,7 +122,7 @@ final class WebhookController extends AbstractController
 
     }
 
-    public function sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard): void
+    public function sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard, $titleColumn): void
     {
         $dateNow = new \DateTimeImmutable();
         $emailRecept = $ticket->getUser()->getEmail();
@@ -136,6 +136,7 @@ final class WebhookController extends AbstractController
             ->context([
                 'ticket' => $ticket,
                 'contentBodyCard' => $contentBodyCard,
+                'titleColumn' => $titleColumn,
             ]);
 
         try {
