@@ -45,10 +45,10 @@ final class MemberController extends AbstractController
         $this->trelloKey = $_ENV['TRELLO_KEY'];
         $this->trelloToken = $_ENV['TRELLO_TOKEN'];
         $this->col_a_faire = $_ENV['COL_A_FAIRE'];
-        $this->emailCreatif = "setheve@viceversa.re";
-        //$this->emailCreatif = "vincent.sumatra@univ-reunion.fr";
-        $this->emailDirection = "mmaitre@viceversa.re";
-        //$this->emailDirection = "maeva.bouda@univ-reunion.fr";
+        //$this->emailCreatif = "setheve@viceversa.re";
+        $this->emailCreatif = "vincent.sumatra@univ-reunion.fr";
+        //$this->emailDirection = "mmaitre@viceversa.re";
+        $this->emailDirection = "maeva.bouda@univ-reunion.fr";
         $this->repoTicket = $repoTicket;
     }
 
