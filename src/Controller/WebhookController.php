@@ -160,6 +160,7 @@ final class WebhookController extends AbstractController
             ->context([
                 'ticket' => $ticket,
                 'contentBodyCard' => $contentBodyCard,
+                'titleColumn' => $titleColumn,
             ]);
 
         try {
