@@ -164,11 +164,11 @@ final class MemberController extends AbstractController
     {
         $desc = sprintf(
             "**Projet :** %s\n\n" .
-            "**De :** %s\n" .
-            "**Email :** [%s](mailto:%s \"‌\")\n" .
+            "**De :** %s\n\n" .
+            "**Email :** [%s](mailto:%s \"‌\")\n\n" .
             "**Composante :** %s\n\n" .
-            "**Date événement :** %s\n" .
-            "**Date limite :** %s\n" .
+            "**Date événement :** %s\n\n" .
+            "**Date limite :** %s\n\n" .
             "**Lien ressources :** %s\n\n" .
             "---\n\n" .
             "**Brief :**\n%s\n\n" .
