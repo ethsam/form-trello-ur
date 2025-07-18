@@ -55,6 +55,9 @@ final class WebhookController extends AbstractController
             $timestamp = $data['action']['date'] ?? date('c');
             $contentBodyCard = $data['action']['data']['card']['desc'] ?? 'rien...';
 
+            $logDataCard = print_r($data, true);
+            file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', "--- NEW EVENT ---\n" . $logDataCard . "\n\n", FILE_APPEND);
+
             $cardIdTrello = $data['action']['data']['card']['id'];
             $ticketByIdTrello = $this->repoTicket->findOneBy(['idTrello' => $cardIdTrello]);
 
