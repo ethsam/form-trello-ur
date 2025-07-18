@@ -100,13 +100,17 @@ final class WebhookController extends AbstractController
         }
 
         if (!$arrayActionColum) {
-            $log = sprintf("Aucune action trouvée pour la liste : %s\n", $toList);
-            file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
+            // $log = sprintf("Aucune action trouvée pour la liste : %s\n", $toList);
+            // file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
+            return;
         } else {
             foreach ($arrayActionColum as $actionColumSingle) {
                 $emailReceipt = $actionColumSingle->getEmailReceipt();
                 $statusAction = $actionColumSingle->isStatus();
                 $titleColumn = $actionColumSingle->getTitleColumn();
+
+                $log = sprintf("ActionColum ID : %s - Email : %s - Status : %s - TitleColumn : %s\n", $actionColumSingle->getId(), $emailReceipt, $statusAction, $titleColumn);
+                file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
 
                 if ($emailReceipt === 'DEMANDEUR' && $statusAction === true) {
                     $this->sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard);
