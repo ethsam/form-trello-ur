@@ -218,7 +218,7 @@
                                                                 <h1
                                                                     class="v-font-size"
                                                                     style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-size: 25px; font-weight: 400;">
-                                                                    <span>Nouvelle tache</span></h1>
+                                                                    <span>Demande validée</span></h1>
                                                                 <!--[if mso]></td></tr></table><![endif]-->
 
                                                             </td>
@@ -291,47 +291,11 @@
                                                                         Composante : {{ ticket.composante }}<br>
                                                                         Date événement : {{ ticket.dateEvent|date('d/m/Y') }}<br>
                                                                         Date limite : {{ ticket.dateLimit|date('d/m/Y') }}<br>
-                                                                        Lien ressources : {{ ticket.link }}<br>
-                                                                        Brief : {{ ticket.brief }}<br>
+                                                                        Lien ressources : {{ ticket.link }}<br><br>
+                                                                        Contenu :<br>
+                                                                        {{ contentBodyCard|raw }}
                                                                         </span>
                                                                     </p>
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-
-                                                <table
-                                                    id="u_content_button_1"
-                                                    style="font-family:arial,helvetica,sans-serif;"
-                                                    role="presentation"
-                                                    cellpadding="0"
-                                                    cellspacing="0"
-                                                    width="100%"
-                                                    border="0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td
-                                                                class="v-container-padding-padding"
-                                                                style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 60px;font-family:arial,helvetica,sans-serif;"
-                                                                align="left">
-
-                                                                <!--[if mso]><style>.v-button {background: transparent
-                                                                !important;}</style><![endif]-->
-                                                                <div align="center">
-                                                                    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
-                                                                    xmlns:w="urn:schemas-microsoft-com:office:word" href="https://unlayer.com"
-                                                                    style="height:37px; v-text-anchor:middle; width:180px;" arcsize="11%" stroke="f"
-                                                                    fillcolor="#0202aa"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
-                                                                    <a
-                                                                        href="https://trello.com/"
-                                                                        target="_blank"
-                                                                        class="v-button v-size-width v-font-size"
-                                                                        style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #0202aa; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:31%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
-                                                                        <span style="display:block;padding:10px 20px;line-height:120%;"><span style="font-size: 14px; line-height: 16.8px;">Voir la tache</span></span>
-                                                                    </a>
-                                                                    <!--[if mso]></center></v:roundrect><![endif]-->
                                                                 </div>
 
                                                             </td>

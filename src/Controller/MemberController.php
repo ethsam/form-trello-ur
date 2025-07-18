@@ -114,10 +114,13 @@ final class MemberController extends AbstractController
                 }
             }
 
-            $this->manager->persist($ticket);
             $statusCreate = $this->createTrelloCard($ticket);
 
+            $cardIdOnTrello = $statusCreate['cardId'] ?? null;
+
             if ($statusCreate['status']) {
+                $ticket->setIdTrello($cardIdOnTrello);
+                $this->manager->persist($ticket);
                 $this->manager->flush();
                 $this->addFlash('success', 'Demande envoyée avec succès et carte Trello créée.');
                 $this->sendMailAfterCreate($ticket, $this->emailCreatif);

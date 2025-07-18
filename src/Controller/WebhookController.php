@@ -2,7 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Ticket;
+use App\Repository\TicketRepository;
+use App\Repository\ActionColumRepository;
+use League\CommonMark\CommonMarkConverter;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -11,10 +17,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class WebhookController extends AbstractController
 {
     private string $projectDir;
+    private $repoActionColum;
+    private $repoTicket;
+    private $mailer;
 
-    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir)
+    public function __construct(#[Autowire('%kernel.project_dir%')] string $projectDir, ActionColumRepository $repoActionColum, TicketRepository $repoTicket, MailerInterface $mailer)
     {
         $this->projectDir = $projectDir;
+        $this->repoActionColum = $repoActionColum;
+        $this->repoTicket = $repoTicket;
+        $this->mailer = $mailer;
     }
 
     #[Route('/webhook', name: 'app_webhook', methods: ['GET', 'POST', 'HEAD'])]
@@ -40,8 +52,16 @@ final class WebhookController extends AbstractController
             $toList = $data['action']['data']['listAfter']['name'] ?? 'Inconnue';
             $movedBy = $data['action']['memberCreator']['fullName'] ?? 'Quelqu’un';
             $timestamp = $data['action']['date'] ?? date('c');
+            $contentBodyCard = $data['action']['data']['card']['desc'] ?? 'rien...';
 
-            $log = sprintf("[%s] 📦 %s a déplacé \"%s\" de [%s] vers [%s]\n", $timestamp, $movedBy, $cardName, $fromList, $toList);
+            $cardIdTrello = $data['action']['data']['card']['id'];
+            $ticketByIdTrello = $this->repoTicket->findOneBy(['idTrello' => $cardIdTrello]);
+
+            if ($ticketByIdTrello) {
+                $this->routingNotification($ticketByIdTrello, $toList, $this->convertMarkdownToHtml($contentBodyCard));
+            }
+
+            $log = sprintf("Carde ID : %s - [%s] 📦 %s a déplacé \"%s\" de [%s] vers [%s]\n", $cardIdTrello, $timestamp, $movedBy, $cardName, $fromList, $toList);
 
             file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
         }
@@ -70,6 +90,75 @@ final class WebhookController extends AbstractController
         );
     }
 
+    public function routingNotification(Ticket $ticket, $toList, $contentBodyCard)
+    {
+        $arrayActionColum = $this->repoActionColum->findBy(['titleColumn' => $toList]);
 
+        foreach ($arrayActionColum as $actionColumSingle) {
+            $emailReceipt = $actionColumSingle->getEmailReceipt();
+            $statusAction = $actionColumSingle->isStatus();
+            $titleColumn = $actionColumSingle->getTitleColumn();
+
+            if ($emailReceipt === 'DEMANDEUR' && $statusAction === true) {
+                $this->sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard);
+            } elseif ($emailReceipt != 'DEMANDEUR' && $statusAction === false) {
+                $this->sendMailAfterChangeColumnToEmailContainInActionColum($ticket, $contentBodyCard, $emailReceipt, $titleColumn);
+            }
+        }
+    }
+
+    public function sendMailAfterChangeColumnToReceipt($ticket, $contentBodyCard): void
+    {
+        $dateNow = new \DateTimeImmutable();
+        $emailRecept = $ticket->getUser()->getEmail();
+        $objetMail = 'Votre demande est validée : ' .$dateNow->format('d/m/Y') . ' - '. $ticket->getTitle();
+
+        $email = (new TemplatedEmail())
+            ->from('support@viceversa.re')
+            ->to($emailRecept)
+            ->subject($objetMail)
+            ->htmlTemplate('emails/ticket_validee_receipt.html.twig')
+            ->context([
+                'ticket' => $ticket,
+                'contentBodyCard' => $contentBodyCard,
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (\Exception $e) {
+            $log = sprintf("Erreur lors de l'envoi de l'email : %s\n", $e->getMessage());
+            file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
+        }
+    }
+
+    public function sendMailAfterChangeColumnToEmailContainInActionColum($ticket, $contentBodyCard, $emailReceipt, $titleColumn): void
+    {
+        $dateNow = new \DateTimeImmutable();
+        $objetMail = 'Une demande à été déplacée dans la colonne : [' . $titleColumn . '] - ' .$dateNow->format('d/m/Y') . ' - '. $ticket->getTitle();
+
+        $email = (new TemplatedEmail())
+            ->from('support@viceversa.re')
+            ->to($emailReceipt)
+            ->subject($objetMail)
+            ->htmlTemplate('emails/ticket_action_colum.html.twig')
+            ->context([
+                'ticket' => $ticket,
+                'contentBodyCard' => $contentBodyCard,
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (\Exception $e) {
+            $log = sprintf("Erreur lors de l'envoi de l'email : %s\n", $e->getMessage());
+            file_put_contents($this->projectDir . '/DEBUG/trello_webhook.log', $log, FILE_APPEND);
+        }
+    }
+
+    public function convertMarkdownToHtml($contentBodyCard)
+    {
+        $converter = new CommonMarkConverter();
+        $htmlBody = $converter->convert($contentBodyCard);
+        return $htmlBody;
+    }
 
 }

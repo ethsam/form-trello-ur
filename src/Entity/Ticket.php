@@ -55,6 +55,9 @@ class Ticket
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $idTrello = null;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
@@ -227,6 +230,18 @@ class Ticket
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIdTrello(): ?string
+    {
+        return $this->idTrello;
+    }
+
+    public function setIdTrello(?string $idTrello): static
+    {
+        $this->idTrello = $idTrello;
 
         return $this;
     }
